@@ -2,6 +2,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -12,23 +14,83 @@
 body {
     width: 100%;
     /* background: linear-gradient(45deg, rgb(63, 50, 81), rgb(0, 39, 47) 70%); */
-    background: radial-gradient(81.45% 111.08% at 50% 100%, rgba(0, 0, 0, 0.12) 0%, rgba(165, 13, 39, 0.12) 60.76%, rgba(236, 19, 55, 0.12) 77.63%, rgba(0, 0, 0, 0.12) 97.19%), rgb(16, 12, 29);
+    /* background: radial-gradient(81.45% 111.08% at 50% 100%, rgba(0, 0, 0, 0.12) 0%, rgba(165, 13, 39, 0.12) 60.76%, rgba(236, 19, 55, 0.12) 77.63%, rgba(0, 0, 0, 0.12) 97.19%), rgb(16, 12, 29); */
+    background-color: black;
 }
 
 .hero {
-    padding: 0rem 5rem;
+    position: relative;
     min-height: 100vh;
-    background: url(../images/hero.jpg) center no-repeat;
-    background-size: cover;
+    background: black;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgb(65, 50, 70);
 }
 
-.hero h1 {
-    font-size: 5vw;
-    font-family: 'Lobster', cursive;
+.parallax-text-box {
+    position: absolute;
+    width: 100%;
+    /* overflow: hidden; */
+    text-align: center;
+}
+
+.parallax-text {
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-text span {
+    color: white;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 10vw;
+    display: inline-block;
+}
+
+.parallax-text span p.off {
+    opacity: 0;
+    visibility: 0;
+}
+
+.parallax-text span p {
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.parallax-text span p::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: transparent;
+    -webkit-text-stroke: 0.15vw white;
+    z-index: 4;
+}
+
+.hero-img-box {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.hero-img-box img {
+    width: 37vw;
+    animation: animate 2s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+}
+
+@keyframes animate {
+    0%, 10% {
+        transform: translate(100vw, 0) rotate(15deg);
+    }
+
+    90%, 100% {
+        transform: translate((-5vw, -5w) rotate(-30deg));
+    }
 }
 
 .slider,
