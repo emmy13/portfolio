@@ -3,21 +3,30 @@ const tl = gsap.timeline({ defaults: { ease: "power1.out" } });
 tl.to(".text", { y: "0%", duration: 1, stagger: 0.25, ease: "bounce" });
 tl.to(".slider", { y: "-100%", duration: 1.5, delay: 0.5 });
 tl.to(".intro", {y: "-100%", duration: 1}, "<0.5");
-tl.from(".hero h1", {opacity: 0, duration: 1})
+tl.from(".hero h1", {opacity: 0, duration: 1, onComplete: animation})
 
 let parallaxText = document.querySelector(".parallax-text"),
     activeParallaxIndex = 0,
-    words = ["developer", "man", "undefined", "baller"],
+    words = ["developer", "mandem", "undefined", "baller"],
     maxLengthWord = words.reduce((max, word) => max.length > word.length ? max : word, '').length,
-    textHeight = 0;
+    textHeight = 0,
+    currentHeight = 0;
 
 
 attachWords();
 adjustHeight();
 
-const parallaxTl = gsap.timeline({defaults: {ease: "power1.out", repeat: -1, yoyo: true}});
+function animation() {
+    let spans = document.querySelectorAll(".parallax-text span");
+    let spanArr = [];
+    for (let i = 0; i < spans.length; i++) spanArr.push(spans[i]);
+    let shuffledArr = gsap.utils.shuffle(spanArr);
+    
+    gsap.to(shuffledArr, { duration: 1, y: -currentHeight, stagger: 0.2, delay: 1, ease: Expo.easeOut, onComplete: animation })
 
-parallaxTl.to(document.querySelectorAll(".parallax-text span"), {duration: 1, y: -textHeight, stagger: 0.2, onComplete: () => textHeight*=textHeight})
+    if(currentHeight / textHeight == (words.length - 1)) currentHeight = 0; 
+    else currentHeight+=textHeight
+}
 
 function attachWords() {
     let spans = [];
@@ -50,6 +59,8 @@ function attachWords() {
 
 function adjustHeight() {
     let para = document.querySelector(".parallax-text span p");
-    textHeight = para.clientHeight;
+    textHeight = para.offsetHeight;
+    console.log(para.offsetHeight);
+    if(currentHeight < textHeight) currentHeight = textHeight;
     parallaxText.style.height = `${textHeight}px`
 }
