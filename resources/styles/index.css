@@ -13,6 +13,11 @@
     font-family: 'Atkinson Hyperlegible', sans-serif;
 }
 
+:root {
+    --light-green: #c6ea79;
+    --text-gray: #8e8e8e;
+}
+
 body {
     width: 100%;
     /* background: radial-gradient(81.45% 111.08% at 50% 100%, rgba(0, 0, 0, 0.12) 0%, rgba(165, 13, 39, 0.12) 60.76%, rgba(236, 19, 55, 0.12) 77.63%, rgba(0, 0, 0, 0.12) 97.19%), rgb(16, 12, 29); */
@@ -40,8 +45,43 @@ body {
 }
 
 .hero-text-box {
+    position: relative;
     width: 100%;
     transform: translateY(-50%);
+}
+
+.hero-intro {
+    position: absolute;
+    top: -30%;
+    left: 10%;
+    color: var(--light-green);
+}
+
+.hero-outro {
+    max-width: 60%;
+    position: absolute;
+    top: 110%;
+    left: 10%;
+    color: var(--text-gray);
+}
+
+.hero-outro p {
+    line-height: 1.5;
+}
+
+.hero-outro a {
+    margin-top: 20px;
+    display: inline-flex;
+    padding: 16px 13px;
+    background-color: rgba(142, 142, 142, 0.5);
+    border-radius: 30px;
+    color: white;
+}
+
+.hero-outro a i {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .parallax-text-box {
@@ -119,6 +159,14 @@ body {
     transform: translateY(100%);
 }
 
+
+.about {
+    height: 100vh;
+}
+
+
+
+
 @media (max-width: 1200px) {
     .parallax-text span p {
         font-size: 100px;
@@ -144,6 +192,17 @@ body {
     .parallax-text span p {
         font-size: 40px;
         height: 60px;
+    }
+
+    .hero-intro {
+        top: -40%;
+        font-size: 19px;
+    }
+
+    .hero-outro {
+        max-width: 80%;
+        top: 120%;
+        font-size: 14px;
     }
 }
 
