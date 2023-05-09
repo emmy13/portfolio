@@ -1,20 +1,22 @@
-const tl = gsap.timeline({ defaults: { ease: "power1.out" } });
+// const tl = gsap.timeline({ defaults: { ease: "power1.out" } });
 
-tl.to(".text", { y: "0%", duration: 1, stagger: 0.25, ease: "bounce" });
-tl.to(".slider", { y: "-100%", duration: 1.5, delay: 0.5 });
-tl.to(".intro", {y: "-100%", duration: 1}, "<0.5");
-tl.from(".hero h1", {opacity: 0, duration: 1, onComplete: animation})
+// tl.to(".text", { y: "0%", duration: 1, stagger: 0.25, ease: "bounce" });
+// tl.to(".slider", { y: "-100%", duration: 1.5, delay: 0.5 });
+// tl.to(".intro", {y: "-100%", duration: 1}, "<0.5");
+// tl.from(".hero h1", {opacity: 0, duration: 1, onComplete: animation})
 
 let parallaxText = document.querySelector(".parallax-text"),
     activeParallaxIndex = 0,
-    words = ["developer", "mandem", "undefined", "baller"],
+    words = ["a fullstack", "web developer", "a motivated", "programmer", "a co-operative", "team member"],
     maxLengthWord = words.reduce((max, word) => max.length > word.length ? max : word, '').length,
     textHeight = 0,
-    currentHeight = 0;
+    currentHeight = 0,
+    textPerLine = 2;
 
 
 attachWords();
 adjustHeight();
+animation()
 
 function animation() {
     let spans = document.querySelectorAll(".parallax-text span");
@@ -22,10 +24,9 @@ function animation() {
     for (let i = 0; i < spans.length; i++) spanArr.push(spans[i]);
     let shuffledArr = gsap.utils.shuffle(spanArr);
     
-    gsap.to(shuffledArr, { duration: 1, y: -currentHeight, stagger: 0.2, delay: 1, ease: Expo.easeOut, onComplete: animation })
-
-    if(currentHeight / textHeight == (words.length - 1)) currentHeight = 0; 
-    else currentHeight+=textHeight
+    gsap.to(shuffledArr, { duration: 1, y: -currentHeight, stagger: 0.2, delay: 2, ease: Expo.easeOut, onComplete: animation })
+    if (currentHeight / textHeight == ((words.length/textPerLine) - 1)) currentHeight = 0;
+    else currentHeight += textHeight;
 }
 
 function attachWords() {
@@ -36,31 +37,37 @@ function attachWords() {
     }
     for (let i = 0; i < words.length; i++) {
         let word = words[i].split("");
-        let spacing = Math.floor((maxLengthWord - word.length)/2)
+        let spacing = Math.floor((maxLengthWord - word.length) / 2)
         let backSpace = maxLengthWord - (spacing + word.length);
         let activeWord = 0;
         for (let j = 0; j < maxLengthWord; j++) {
             let para = document.createElement("p");
-            if((j + 1) <= spacing || (maxLengthWord - (j + 1)) < backSpace) {
+            if ((j + 1) <= spacing || (maxLengthWord - (j + 1)) < backSpace) {
                 para.innerHTML = "0";
                 para.classList.add("off")
             } else {
-                para.innerHTML = word[activeWord];
-                para.dataset.text = word[activeWord];
+                if (word[activeWord] == " ") {
+                    para.innerHTML = "0";
+                    para.classList.add("off")
+                } else {
+                    para.innerHTML = word[activeWord];
+                    // para.dataset.text = word[activeWord];
+                }
                 activeWord++;
             }
             spans[j].append(para)
         }
     }
     for (let i = 0; i < spans.length; i++) {
-        parallaxText.append(spans[i])       
+        parallaxText.append(spans[i])
     }
 }
 
 function adjustHeight() {
     let para = document.querySelector(".parallax-text span p");
-    textHeight = para.offsetHeight;
-    console.log(para.offsetHeight);
-    if(currentHeight < textHeight) currentHeight = textHeight;
+    textHeight = para.offsetHeight * textPerLine;
+    currentHeight=0;
     parallaxText.style.height = `${textHeight}px`
 }
+
+window.onresize = adjustHeight;
