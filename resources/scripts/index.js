@@ -23,7 +23,7 @@ function animation() {
     let spanArr = [];
     for (let i = 0; i < spans.length; i++) spanArr.push(spans[i]);
     let shuffledArr = gsap.utils.shuffle(spanArr);
-    
+
     gsap.to(shuffledArr, { duration: 1, y: -currentHeight, stagger: 0.2, delay: 2, ease: Expo.easeOut, onComplete: animation })
     if (currentHeight / textHeight == ((words.length/textPerLine) - 1)) currentHeight = 0;
     else currentHeight += textHeight;
@@ -66,8 +66,19 @@ function attachWords() {
 function adjustHeight() {
     let para = document.querySelector(".parallax-text span p");
     textHeight = para.offsetHeight * textPerLine;
-    currentHeight=0;
+    currentHeight = 0;
     parallaxText.style.height = `${textHeight}px`
 }
 
-window.onresize = adjustHeight;
+let windowWidth = window.innerWidth;
+let resizeTimeout;
+
+window.onresize = () => {
+    clearTimeout(resizeTimeout)
+    resizeTimeout = setTimeout(() => {
+        if(window.innerWidth !== windowWidth) {
+            adjustHeight();
+            windowWidth = window.innerWidth;
+        }
+    }, 300);
+};
