@@ -14,9 +14,16 @@
 }
 
 :root {
+    --text-size: 150px;
     --light-green: #c6ea79;
     --text-gray: #8e8e8e;
     --light-gray: #141414;
+    --blue: #543bf0;
+}
+
+/*Common*/
+p {
+    font-size: 16px;
 }
 
 body {
@@ -53,21 +60,21 @@ body {
 .hero-text-box {
     position: relative;
     width: 100%;
-    transform: translateY(-50%);
+    transform: translateY(calc(-1 * var(--text-size)));
 }
 
 .hero-intro {
     position: absolute;
-    top: -30%;
+    top: -20%;
     left: 10%;
     color: var(--light-green);
 }
 
 .hero-outro {
-    max-width: 60%;
-    position: absolute;
-    top: 110%;
+    position: relative;
+    margin-top: 40px;
     left: 10%;
+    max-width: 60%;
     color: var(--text-gray);
 }
 
@@ -123,8 +130,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 130px;
-    height: 150px;
+    font-size: calc(var(--text-size) - 20px);
+    height: var(--text-size);
     position: relative;
     user-select: none;
     -webkit-user-select: none;
@@ -231,7 +238,6 @@ body {
 
 .about-cont p {
     color: var(--text-gray);
-    font-size: 14px;
 }
 
 .about-cont:hover {
@@ -247,19 +253,43 @@ body {
     color: black;
 }
 
+svg {
+    display: block;
+}
+
+.services {
+    width: 100%;
+    height: 50vh;
+    background-color: var(--light-gray);
+}
+
+.sub-head {
+    width: 50%;
+    color: white;
+}
+
+.sub-head h1 {
+    text-transform: uppercase;
+    font-size: 4vw;
+}
+
+.highlight {
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+}
+
+
 
 
 @media (max-width: 1200px) {
-    .parallax-text span p {
-        font-size: 100px;
-        height: 120px;
+    :root {
+        --text-size: 120px
     }
 }
 
 @media (max-width: 1000px) {
-    .parallax-text span p {
-        font-size: 80px;
-        height: 100px;
+    :root {
+        --text-size: 100px;
     }
 }
 
@@ -268,13 +298,16 @@ body {
         height: calc(100vh - 80px);
     }
 
-    .parallax-text span p {
-        font-size: 60px;
-        height: 80px;
+    :root {
+        --text-size: 80px;
     }
 }
 
 @media (max-width: 600px) {
+    p {
+        font-size: 14px;
+    }
+
     .hero {
         height: calc(100vh - 60px);
     }
@@ -292,25 +325,29 @@ body {
         font-size: 8vw;
     }
 
-    .head p {
-        font-size: 14px;
+    :root {
+        --text-size: 60px;
     }
 
-    .parallax-text span p {
-        font-size: 40px;
-        height: 60px;
+    .sub-head h1 {
+        font-size: 5vw;
     }
 
     .hero-intro {
-        top: -40%;
         font-size: 19px;
     }
 
     .hero-outro {
         max-width: 80%;
-        top: 120%;
-        font-size: 14px;
     }
+
+    .about-cont h1 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 500px) {
+    
 }
 
 @media (max-width: 400px) {
@@ -322,8 +359,7 @@ body {
         width: 100%;
     }
 
-    .parallax-text span p {
-        font-size: 30px;
-        height: 50px;
+    :root {
+        --text-size: 50px;
     }
 }
