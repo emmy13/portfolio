@@ -6,6 +6,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -258,8 +260,8 @@ svg {
 }
 
 .services {
+    position: relative;
     width: 100%;
-    height: 60vh;
     background-color: var(--light-gray);
 }
 
@@ -271,12 +273,75 @@ svg {
 .sub-head h1 {
     text-transform: uppercase;
     font-size: 4vw;
+    line-height: 1;
+}
+
+.sub-head p {
+    color: var(--text-gray);
 }
 
 .highlight {
     color: var(--blue);
     font-family: 'Poppins', sans-serif;
 }
+
+.services-service {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.services-text {
+    width: 80%;
+    margin: 20px 0;
+    padding: 17px 30px;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.services-text span {
+    text-transform: capitalize;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.services-text i {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.services-text:hover {
+    background-color: var(--light-green);
+    color: black;
+    justify-content: center;
+}
+
+.services-text:hover i {
+    transform: rotate(45deg);
+}
+
+.svg-rev {
+    transform: scale(-1);
+}
+
+.skills {
+    width: 100%;
+    height: 50vh;
+}
+
+.skills-box {
+    margin-top: 50px;
+    width: 100%;
+    height: 300px;
+    border-radius: 20px;
+    background-color: var(--light-gray);
+}
+
 
 
 
@@ -294,12 +359,26 @@ svg {
 }
 
 @media (max-width: 800px) {
+    .sub-head {
+        width: 70%;
+    }
+
     .hero {
         height: calc(100vh - 80px);
     }
 
     :root {
         --text-size: 80px;
+    }
+}
+
+@media (max-width: 700px) {
+    .sub-head h1 {
+        font-size: 6vw;
+    }
+
+    .services-text {
+        width: 100%;
     }
 }
 
@@ -347,10 +426,24 @@ svg {
 }
 
 @media (max-width: 500px) {
-    
+    .services-text span {
+        font-size: 14px;
+    }
+
+    .sub-head {
+        width: 90%;
+    }
+
+    .sub-head h1 {
+        font-size: 26px;
+    }
 }
 
 @media (max-width: 400px) {
+    .sub-head {
+        width: 100%;
+    }
+
     .hero {
         height: calc(100vh - 50px);
     }
