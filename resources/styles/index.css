@@ -21,6 +21,7 @@
     --text-gray: #8e8e8e;
     --light-gray: #141414;
     --blue: #543bf0;
+    --skills-color: black;
 }
 
 /*Common*/
@@ -300,7 +301,7 @@ svg {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
-    transition: 0.3s;
+    /* transition: 0.3s; */
 }
 
 .services-text span {
@@ -329,19 +330,112 @@ svg {
     transform: scale(-1);
 }
 
+.skills-svg {
+    background-color: var(--skills-color);
+    transition: 0.5s;
+}
+
 .skills {
     width: 100%;
-    height: 50vh;
+    background-color: var(--skills-color);
+    transition: 0.5s;
 }
 
 .skills-box {
+    position: relative;
+    display: flex;
     margin-top: 50px;
     width: 100%;
-    height: 300px;
     border-radius: 20px;
     background-color: var(--light-gray);
+    overflow: hidden;
 }
 
+.skills-nav {
+    position: absolute;
+    left: 15px;
+    bottom: 20px;
+    width: 45%;
+    height: 50px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+
+.skills-nav button {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--blue);
+    border-radius: 100%;
+    background-color: var(--light-gray);
+    color: var(--blue);
+    font-size: 20px;
+    opacity: 0.7;
+    transition: 0.5s;
+}
+
+.skills-nav button.off {
+    transform: scale(0);
+}
+
+.skills-box-text {
+    padding: 20px;
+    width: 50%;
+    color: white;
+}
+
+.skills-box-text h1 {
+    color: var(--light-green);
+    margin-bottom: 15px;
+    font-family: 'oswald', sans-serif;
+}
+
+.skills-box-text p {
+    font-family: 'poppins', sans-serif;
+    font-size: 14px;
+}
+
+.skills--box-skills {
+    position: relative;
+    width: 50%;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 3%;
+    overflow: hidden;
+}
+
+.skills-skill {
+    padding: 20px;
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background-color: black;
+    border-radius: 20px;
+    color:  rgb(237, 237, 237);
+}
+
+.skills-logo {
+    width: 100%;
+    height: 50%;
+}
+
+.skills-logo img {
+    height: 100%;
+}
+
+.skills-skill h1 {
+    color: var(--light-green);
+    font-family: 'oswald', sans-serif;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.skills-skill p {
+    font-weight: 600;
+    text-transform: capitalize;
+}
 
 
 
