@@ -11,7 +11,8 @@ let parallaxText = document.querySelector(".parallax-text"),
     maxLengthWord = words.reduce((max, word) => max.length > word.length ? max : word, '').length,
     textHeight = 0,
     currentHeight = 0,
-    textPerLine = 2;
+    textPerLine = 2,
+    skillSpacing = [];
 
 
 attachWords();
@@ -71,6 +72,8 @@ function adjustHeight() {
 }
 
 //Skills
+const skillsBack = document.getElementById("skills-back");
+const skillsNext = document.getElementById("skills-next");
 const skillsBox = document.querySelector(".skills--box-skills");
 const skills = [
     {
@@ -118,6 +121,7 @@ const skills = [
 ]
 
 function attachSkills() {
+    skillsBack.classList.add("off")
     for (let i = 0; i < skills.length; i++) {
         let div = document.createElement("div");
         let divContent = `<div class="skills-logo">
@@ -139,14 +143,148 @@ function adjustSkills() {
     let spacing = 0;
     const skillsSkill = document.querySelectorAll(".skills-skill");
     const skillWidth = skillsSkill[0].clientWidth + gap;
+
+    //set active element
+    skillsSkill[0].dataset.status = "active";
+
     for (let i = 0; i < skillsSkill.length; i++) {
         skillsSkill[i].style.transform = `translateX(${spacing}px)`;
-        spacing+=skillWidth;
+        if (i > 1) continue
+        spacing += skillWidth;
+        skillSpacing.push(spacing);
     }
 }
 
 attachSkills();
 adjustSkills();
+
+//Skills Buttons
+skillsNext.addEventListener("click", () => {
+    //disable buttons
+    disableBtns(true);
+
+    //get active element
+    const activeElement = document.querySelector('.skills-skill[data-status="active"]');
+
+    //get siblings before and after
+    let { siblingsBefore, siblingsAfter } = getAllSiblings(activeElement);
+    let nextSibling = siblingsAfter.shift();
+    let afterNextSibling = siblingsAfter.shift();
+
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 0.8,
+            ease: Expo.easeInOut
+        }
+    });
+
+    if (siblingsBefore.length) gsap.to(siblingsBefore, { duration: 0, yPercent: 200, x: 0 });
+
+    //start timeline
+    tl.to(activeElement, { yPercent: 200 })
+    tl.to(nextSibling, { x: 0 }, "-=0.2");
+
+    if (afterNextSibling) tl.to(afterNextSibling, { duration: 0.3, x: skillSpacing[0], onComplete: () => restructureSkills(true) });
+
+    if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0, x: skillSpacing[1] });
+
+    tl.call(() => {
+        disableBtns(false);
+        changeSkillsState({ hasNextSibling: afterNextSibling, hasPrevSibling: true })
+    })
+})
+
+skillsBack.addEventListener("click", () => {
+    //disable button
+    disableBtns(true);
+
+    //get active element
+    const activeElement = document.querySelector('.skills-skill[data-status="active"]').previousElementSibling;
+
+    //get siblings before and after
+    let { siblingsBefore, siblingsAfter } = getAllSiblings(activeElement);
+    let nextSibling = siblingsAfter.shift();
+
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 0.8,
+            ease: Expo.easeInOut
+        }
+    });
+
+    if (siblingsBefore.length) gsap.to(siblingsBefore, { duration: 0, yPercent: 200, x: 0 });
+
+    //start timeline
+    if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0.5, x: skillSpacing[1] });
+    tl.to(nextSibling, { x: skillSpacing[0] })
+        .to(activeElement, { yPercent: 0 }, "-=0.5")
+        .call(() => {
+            disableBtns(false);
+            restructureSkills(false)
+            changeSkillsState({ hasNextSibling: true, hasPrevSibling: activeElement.previousElementSibling })
+        })
+})
+
+
+//Functions
+function disableBtns(condition) {
+    if (condition) {
+        skillsBack.disabled = true;
+        skillsNext.disabled = true;
+        skillsNext.classList.add("load");
+        skillsBack.classList.add("load");
+    } else {
+        skillsNext.disabled = false;
+        skillsBack.disabled = false;
+        skillsNext.classList.remove("load");
+        skillsBack.classList.remove("load");
+    }
+}
+
+function changeSkillsState(obj) {
+    if (obj.hasNextSibling) skillsNext.classList.remove("off")
+    else skillsNext.classList.add("off")
+    if (obj.hasPrevSibling) skillsBack.classList.remove("off")
+    else skillsBack.classList.add("off")
+}
+
+function restructureSkills(param) {
+    const activeElement = document.querySelector('.skills-skill[data-status="active"]');
+
+    let sibling = (param) ? activeElement.nextElementSibling : activeElement.previousElementSibling;
+
+    if (sibling) {
+        activeElement.removeAttribute('data-status');
+        sibling.dataset.status = "active";
+    }
+
+}
+
+function getAllSiblings(activeElement) {
+    const siblingsBefore = [];
+    const siblingsAfter = [];
+
+    let sibling = activeElement.previousElementSibling;
+    while (sibling) {
+        siblingsBefore.push(sibling);
+        sibling = sibling.previousElementSibling;
+    }
+
+    sibling = activeElement.nextElementSibling;
+    while (sibling) {
+        siblingsAfter.push(sibling);
+        sibling = sibling.nextElementSibling;
+    }
+
+    return { siblingsBefore, siblingsAfter };
+}
+
+function getSiblings(activeElement) {
+    const siblingBefore = activeElement.previousElementSibling;
+    const siblingAfter = activeElement.nextElementSibling;
+
+    return { siblingBefore, siblingAfter };
+}
 
 let windowWidth = window.innerWidth;
 let resizeTimeout;

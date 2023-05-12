@@ -360,6 +360,7 @@ svg {
     overflow: hidden;
     display: flex;
     justify-content: space-between;
+    z-index: 3;
 }
 
 .skills-nav button {
@@ -370,8 +371,11 @@ svg {
     background-color: var(--light-gray);
     color: var(--blue);
     font-size: 20px;
-    opacity: 0.7;
     transition: 0.5s;
+}
+
+.skills-nav button.load {
+    opacity: 0.3;
 }
 
 .skills-nav button.off {
@@ -401,8 +405,7 @@ svg {
     min-height: 350px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding-left: 3%;
+    justify-content: center;
     overflow: hidden;
 }
 
@@ -453,6 +456,24 @@ svg {
 }
 
 @media (max-width: 800px) {
+    .skills-box {
+        display: block;
+    }
+
+    .skills-box-text {
+        width: 100%;
+    }
+
+    .skills--box-skills {
+        width: 100%;
+    }
+
+    .skills-nav {
+        left: 20px;
+        bottom: 150px;
+        width: calc(100% - 40px);
+    }
+
     .sub-head {
         width: 70%;
     }
