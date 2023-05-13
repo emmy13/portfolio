@@ -14,11 +14,144 @@ let parallaxText = document.querySelector(".parallax-text"),
     textPerLine = 2,
     skillSpacing = [];
 
-
+//Attach words, adjust height and animate
 attachWords();
 adjustHeight();
-animation()
+animation();
 
+//Skills
+const skillsBack = document.getElementById("skills-back");
+const skillsNext = document.getElementById("skills-next");
+const skillsBox = document.querySelector(".skills--box-skills");
+const skills = [
+    {
+        logo: 'html.png',
+        color: 'rgba(230, 81, 0)',
+        name: 'html 5',
+        text: 'standard markup language for web pages',
+        shadow: 'rgba(230, 81, 0, 0.15)',
+        content: 'This is a paragraph about HTML, the standard markup language used for creating web pages. HTML stands for Hypertext Markup Language, and it is the foundation upon which most websites are built. With HTML, web developers can create everything from simple static pages to complex, interactive web applications. '
+    },
+    {
+        logo: 'css.png',
+        color: 'rgb(2, 119, 189)',
+        name: 'css 3',
+        text: 'style sheet language for HTML documents',
+        shadow: 'rgba(2, 119, 189, 0.15)',
+        content: 'Cascading Style Sheets (CSS) is a style sheet language used for describing the presentation of a document written in a markup language. It is commonly used for styling web pages written in HTML and XHTML, but can also be applied to any kind of XML document.'
+    },
+    {
+        logo: 'js.png',
+        color: 'rgb(255, 214, 0)',
+        name: 'javascript',
+        text: 'web programming language',
+        shadow: 'rgba(255, 214, 0, 0.15)',
+        content: 'JavaScript (JS) is a programming language that allows developers to create dynamic, interactive web pages. JS can be used to add functionality, validate user input, manipulate HTML and CSS, and communicate with servers. JS is typically used alongside HTML and CSS to build websites and web applications.'
+    },
+    {
+        logo: 'node.png',
+        color: 'rgb(56, 142, 60)',
+        name: 'node js',
+        text: 'open source server environment',
+        shadow: 'rgba(56, 142, 60, 0.15)',
+        content: "Node.js is an open-source, cross-platform, JavaScript runtime environment built on Chrome's V8 JavaScript engine. It allows developers to run JavaScript code outside of a web browser, enabling server-side scripting and building server-side applications with JavaScript."
+    },
+    {
+        logo: 'express.png',
+        color: 'rgb(33, 163, 102)',
+        name: 'express js',
+        text: 'backend node js framework',
+        shadow: 'rgba(33, 163, 102, 0.15)',
+        content: 'Express.js is a web framework for Node.js that provides a simple and flexible set of features for building web applications and APIs. It is designed to be minimalist, unopinionated, and easy to use, and has become one of the most popular Node.js frameworks for building web applications.'
+    },
+    {
+        logo: 'sql.png',
+        color: 'rgb(0, 121, 107)',
+        name: 'MySQL',
+        text: 'relational database management system',
+        shadow: 'rgba(0, 121, 107, 0.15)',
+        content: 'MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL) to manage and manipulate data. It is widely used in web development to store and retrieve data for websites and applications. MySQL provides a scalable, reliable, and easy-to-use database solution for businesses of all sizes, from small startups to large enterprises.'
+    }
+]
+
+//Attach skills and content to parent 
+attachSkills();
+attachPara();
+
+//Skills Buttons
+skillsNext.addEventListener("click", () => {
+    //disable buttons
+    disableBtns(true);
+
+    //get active element
+    const activeElement = document.querySelector('.skills-skill[data-status="active"]');
+
+    //get siblings before and after
+    let { siblingsBefore, siblingsAfter } = getAllSiblings(activeElement);
+    let nextSibling = siblingsAfter.shift();
+    let afterNextSibling = siblingsAfter.shift();
+
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 0.8,
+            ease: Back.easeInOut
+        }
+    });
+
+    if (siblingsBefore.length) gsap.to(siblingsBefore, { duration: 0, yPercent: 200, x: 0 });
+
+    //start timeline
+    tl.to(gsap.utils.shuffle(splitPara()), { duration: 0.5, stagger: 0.01, opacity: 0 })
+    tl.to(activeElement, { yPercent: 200 })
+    tl.to(nextSibling, { x: 0 }, "-=0.6");
+
+    if (afterNextSibling) tl.to(afterNextSibling, { x: skillSpacing[0], onComplete: () => restructureSkills(true) }, "-=0.6");
+
+    if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0, x: skillSpacing[1] });
+
+    tl.call(() => {
+        attachPara();
+        disableBtns(false);
+        changeSkillsState({ hasNextSibling: afterNextSibling, hasPrevSibling: true })
+        gsap.fromTo(gsap.utils.shuffle(splitPara()), { opacity: 0 }, { duration: 0.5, stagger: 0.01, opacity: 1 })
+    })
+})
+
+skillsBack.addEventListener("click", () => {
+    //disable button
+    disableBtns(true);
+
+    //get active element
+    const activeElement = document.querySelector('.skills-skill[data-status="active"]').previousElementSibling;
+
+    //get siblings before and after
+    let { siblingsBefore, siblingsAfter } = getAllSiblings(activeElement);
+    let nextSibling = siblingsAfter.shift();
+
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 0.8,
+            ease: Back.easeInOut
+        }
+    });
+
+    if (siblingsBefore.length) gsap.to(siblingsBefore, { duration: 0, yPercent: 200, x: 0 });
+
+    //start timeline
+    tl.to(gsap.utils.shuffle(splitPara()), { duration: 0.5, stagger: 0.01, opacity: 0 })
+    if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0.5, x: skillSpacing[1] });
+    tl.to(nextSibling, { x: skillSpacing[0] }, "-=0.5")
+        .to(activeElement, { yPercent: 0 }, "-=0.6")
+        .call(() => {
+            restructureSkills(false);
+            attachPara();
+            disableBtns(false);
+            changeSkillsState({ hasNextSibling: true, hasPrevSibling: activeElement.previousElementSibling });
+            gsap.fromTo(gsap.utils.shuffle(splitPara()), { opacity: 0 }, { duration: 0.5, stagger: 0.01, opacity: 1 })
+        })
+})
+
+//Text Functions
 function animation() {
     let spans = document.querySelectorAll(".parallax-text span");
     let spanArr = [];
@@ -71,55 +204,7 @@ function adjustHeight() {
     parallaxText.style.height = `${textHeight}px`
 }
 
-//Skills
-const skillsBack = document.getElementById("skills-back");
-const skillsNext = document.getElementById("skills-next");
-const skillsBox = document.querySelector(".skills--box-skills");
-const skills = [
-    {
-        logo: 'html.png',
-        color: 'rgba(230, 81, 0)',
-        name: 'html 5',
-        text: 'standard markup language for web pages',
-        shadow: 'rgba(230, 81, 0, 0.15)'
-    },
-    {
-        logo: 'css.png',
-        color: 'rgb(2, 119, 189)',
-        name: 'css 3',
-        text: 'style sheet language for HTML documents',
-        shadow: 'rgba(2, 119, 189, 0.15)'
-    },
-    {
-        logo: 'js.png',
-        color: 'rgb(255, 214, 0)',
-        name: 'javascript',
-        text: 'web programming language',
-        shadow: 'rgba(255, 214, 0, 0.15)'
-    },
-    {
-        logo: 'node.png',
-        color: 'rgb(56, 142, 60)',
-        name: 'node js',
-        text: 'open source server environment',
-        shadow: 'rgba(56, 142, 60, 0.15)'
-    },
-    {
-        logo: 'express.png',
-        color: 'rgb(33, 163, 102)',
-        name: 'express js',
-        text: 'backend node js framework',
-        shadow: 'rgba(33, 163, 102, 0.15)'
-    },
-    {
-        logo: 'sql.png',
-        color: 'rgb(0, 121, 107)',
-        name: 'MySQL',
-        text: 'relational database management system',
-        shadow: 'rgba(0, 121, 107, 0.15)'
-    }
-]
-
+//Skill Functions
 function attachSkills() {
     skillsBack.classList.add("off")
     for (let i = 0; i < skills.length; i++) {
@@ -136,6 +221,8 @@ function attachSkills() {
 
         skillsBox.append(div);
     }
+    //adjust skills after attaching them
+    adjustSkills();
 }
 
 function adjustSkills() {
@@ -155,78 +242,40 @@ function adjustSkills() {
     }
 }
 
-attachSkills();
-adjustSkills();
-
-//Skills Buttons
-skillsNext.addEventListener("click", () => {
-    //disable buttons
-    disableBtns(true);
-
-    //get active element
+function attachPara() {
+    const skillsPara = document.getElementById("skills-para");
     const activeElement = document.querySelector('.skills-skill[data-status="active"]');
 
-    //get siblings before and after
-    let { siblingsBefore, siblingsAfter } = getAllSiblings(activeElement);
-    let nextSibling = siblingsAfter.shift();
-    let afterNextSibling = siblingsAfter.shift();
+    const name = activeElement.querySelector("h1").innerText;
+    const obj = skills.find(skill => skill.name.toLowerCase() === name.toLowerCase());
 
-    const tl = gsap.timeline({
-        defaults: {
-            duration: 0.8,
-            ease: Expo.easeInOut
-        }
-    });
+    skillsPara.previousElementSibling.innerHTML = obj.name || "undefined";
+    skillsPara.innerHTML = obj.content || 'No text mentioned';
+}
 
-    if (siblingsBefore.length) gsap.to(siblingsBefore, { duration: 0, yPercent: 200, x: 0 });
+function revertPara() {
+    const skillsPara = document.getElementById("skills-para");
+    if (skillsPara.querySelectorAll("span").length < 1) return;
 
-    //start timeline
-    tl.to(activeElement, { yPercent: 200 })
-    tl.to(nextSibling, { x: 0 }, "-=0.2");
+    const text = [...document.querySelectorAll("#skills-para span")].map(node => node.textContent).join("");
+    skillsPara.innerHTML = text;
 
-    if (afterNextSibling) tl.to(afterNextSibling, { duration: 0.3, x: skillSpacing[0], onComplete: () => restructureSkills(true) });
+    return
+}
 
-    if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0, x: skillSpacing[1] });
+function splitPara() {
+    let skillsPara = document.getElementById("skills-para");
+    if (skillsPara.querySelectorAll("span").length > 0) {
+        revertPara();
+        skillsPara = document.getElementById("skills-para");
+    }
 
-    tl.call(() => {
-        disableBtns(false);
-        changeSkillsState({ hasNextSibling: afterNextSibling, hasPrevSibling: true })
-    })
-})
+    skillsPara.innerHTML = "<span>" + skillsPara.innerHTML.split(" ").join(" </span><span>") + "</span>";
 
-skillsBack.addEventListener("click", () => {
-    //disable button
-    disableBtns(true);
+    const skillsParaSpans = [...document.querySelectorAll("#skills-para span")];
+    return skillsParaSpans;
+}
 
-    //get active element
-    const activeElement = document.querySelector('.skills-skill[data-status="active"]').previousElementSibling;
-
-    //get siblings before and after
-    let { siblingsBefore, siblingsAfter } = getAllSiblings(activeElement);
-    let nextSibling = siblingsAfter.shift();
-
-    const tl = gsap.timeline({
-        defaults: {
-            duration: 0.8,
-            ease: Expo.easeInOut
-        }
-    });
-
-    if (siblingsBefore.length) gsap.to(siblingsBefore, { duration: 0, yPercent: 200, x: 0 });
-
-    //start timeline
-    if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0.5, x: skillSpacing[1] });
-    tl.to(nextSibling, { x: skillSpacing[0] })
-        .to(activeElement, { yPercent: 0 }, "-=0.5")
-        .call(() => {
-            disableBtns(false);
-            restructureSkills(false)
-            changeSkillsState({ hasNextSibling: true, hasPrevSibling: activeElement.previousElementSibling })
-        })
-})
-
-
-//Functions
 function disableBtns(condition) {
     if (condition) {
         skillsBack.disabled = true;

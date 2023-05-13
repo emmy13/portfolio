@@ -286,6 +286,12 @@ svg {
     font-family: 'Poppins', sans-serif;
 }
 
+.warning {
+    color: red;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
 .services-service {
     width: 100%;
     margin-top: 50px;
@@ -372,6 +378,12 @@ svg {
     color: var(--blue);
     font-size: 20px;
     transition: 0.5s;
+    cursor: pointer;
+}
+
+.skills-nav button:hover {
+    border-color: var(--light-green);
+    color: var(--light-green);
 }
 
 .skills-nav button.load {
@@ -392,9 +404,11 @@ svg {
     color: var(--light-green);
     margin-bottom: 15px;
     font-family: 'oswald', sans-serif;
+    text-transform: uppercase;
 }
 
-.skills-box-text p {
+.skills-box-text p,
+.skills-box-text span {
     font-family: 'poppins', sans-serif;
     font-size: 14px;
 }
