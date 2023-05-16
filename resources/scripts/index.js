@@ -103,9 +103,9 @@ skillsNext.addEventListener("click", () => {
     //start timeline
     tl.to(gsap.utils.shuffle(splitPara()), { duration: 0.5, stagger: 0.01, opacity: 0 })
     tl.to(activeElement, { yPercent: 200 })
-    tl.to(nextSibling, { x: 0 }, "-=0.6");
+    tl.to(nextSibling, { x: 0, onComplete: () => restructureSkills(true) }, "-=0.6");
 
-    if (afterNextSibling) tl.to(afterNextSibling, { x: skillSpacing[0], onComplete: () => restructureSkills(true) }, "-=0.6");
+    if (afterNextSibling) tl.to(afterNextSibling, { x: skillSpacing[0] }, "-=0.6");
 
     if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0, x: skillSpacing[1] });
 
