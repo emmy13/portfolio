@@ -333,7 +333,7 @@ svg {
 }
 
 .svg-rev {
-    transform: scale(-1);
+    transform: scale(-1) translateY(10px);
 }
 
 .skills-svg {
@@ -476,6 +476,7 @@ svg {
 
     .skills-box-text {
         width: 100%;
+        min-height: 200px;
     }
 
     .skills--box-skills {
@@ -569,6 +570,10 @@ svg {
 }
 
 @media (max-width: 400px) {
+    .skills-box-text {
+        min-height: 300px;
+    }
+
     .sub-head {
         width: 100%;
     }
@@ -583,5 +588,13 @@ svg {
 
     :root {
         --text-size: 50px;
+    }
+}
+
+@media (max-width: 330px) {
+    .skills-skill {
+        padding: 10px 10px 20px 10px;
+        width: 220px;
+        height: 220px;
     }
 }
