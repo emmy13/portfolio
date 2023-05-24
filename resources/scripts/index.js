@@ -30,7 +30,7 @@ const skills = [
         name: 'html 5',
         text: 'standard markup language for web pages',
         shadow: 'rgba(230, 81, 0, 0.15)',
-        content: 'This is a paragraph about HTML, the standard markup language used for creating web pages. HTML stands for Hypertext Markup Language, and it is the foundation upon which most websites are built. With HTML, web developers can create everything from simple static pages to complex, interactive web applications. '
+        content: 'Hypertext Markup Language (HTML), and it is the foundation upon which most websites are built. With HTML, web developers can create everything from simple static pages to complex, interactive web applications. '
     },
     {
         logo: 'css.png',

@@ -455,6 +455,132 @@ svg {
 }
 
 
+.experience {
+    margin-top: 80px;
+}
+
+.experience-box {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    grid-column-gap: 20px;
+    color: white;
+}
+
+.experience-text {
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.experience-text h1 {
+    color: var(--blue);
+    font-family: 'poppins', sans-serif;
+    margin-bottom: 10px;
+    font-size: 5vw;
+}
+
+.experience-show {
+    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.experience-show-box {  
+    margin: 20px 0;
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: space-between;
+    background: var(--light-gray);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--blue);
+    box-shadow: rgba(84, 59, 240, 0.15) 0px 4px 24px;
+    transition: 0.5s ease-in;
+}
+
+.experience-show-text {
+    position: relative;
+    width: calc(100% - 70px);
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.experience-show-text h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.experience-show-text p {
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+.experience-show-link {
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: 0.5s ease-out;
+}
+
+.experience-show-link a {
+    display: block;
+    width: 50px;
+    text-decoration: none;
+    text-align: center;
+    color: var(--text-gray);
+}
+
+.experience-show-link a i {
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 7px;
+    transform: none;
+    font-size: 20px;
+    transition: 0.5s;
+}
+
+.experience-show-link a p {
+    font-size: 13px;
+}
+
+.experience-show-link a:hover {
+    color: white;
+}
+
+.experience-show-link a:hover i {
+    border: 1px solid white;
+}
+
+.experience-show-box:hover {
+    width: 100%;
+}
+
+.experience-show-box:hover .experience-show-link {
+    width: 90px;
+}
+
+.experience-show-box:hover .experience-show-link a i {
+    border: 1px solid var(--text-gray);
+    transform: rotate(-30deg);
+}
+
+.experience-show-box.active .experience-show-text {
+    background-color: #d579ea;
+    color: black;
+}
+
 
 
 @media (max-width: 1200px) {
