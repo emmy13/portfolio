@@ -335,6 +335,45 @@ function getSiblings(activeElement) {
     return { siblingBefore, siblingAfter };
 }
 
+//Experience
+const experienceHead = document.querySelector(".experience-head");
+const experienceShow = document.querySelector(".experience-show");
+const experience = [
+    {
+        icon: "fa-solid fa-graduation-cap",
+        name: "education",
+        color: "rgba(0, 66, 130, 1)",
+        opacity: "rgba(0, 66, 130, 0.15)",
+        img: "bu.png"
+    },
+    {
+        icon: "fa-solid fa-id-card-clip",
+        name: "internship",
+        color: "rgba(186, 0, 77, 1)",
+        opacity: "rgba(186, 0, 77, 0.15)",
+        img: "alusoft.png"
+    },
+]
+
+attachExperience();
+
+//Experience Functions
+function attachExperience() {
+    for (let i = 0; i < experience.length; i++) {
+        let div = document.createElement("div");
+        let divContent = `<div class="experience-show-box" style="--color: ${experience[i].color}; --opacity: ${experience[i].opacity};">
+                <i class="${experience[i].icon}"></i>
+                <h1>${experience[i].name}</h1>
+            </div>`
+        div.innerHTML = divContent;
+        experienceShow.append(div);
+    }
+}
+
+function attachExperienceText() {
+    
+}
+
 let windowWidth = window.innerWidth;
 let resizeTimeout;
 
