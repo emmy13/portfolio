@@ -336,26 +336,33 @@ function getSiblings(activeElement) {
 }
 
 //Experience
+var isClicked = false;
 const experienceHead = document.querySelector(".experience-head");
 const experienceShow = document.querySelector(".experience-show");
+const experienceLeftCont = document.querySelector(".experience-left-cont");
 const experience = [
     {
         icon: "fa-solid fa-graduation-cap",
         name: "education",
+        info: "babcock university",
         color: "rgba(0, 66, 130, 1)",
-        opacity: "rgba(0, 66, 130, 0.15)",
-        img: "bu.png"
+        opacity: "rgba(0, 66, 130, 0.2)",
+        img: "bu.png",
+        desc: "I schooled in babcock university"
     },
     {
         icon: "fa-solid fa-id-card-clip",
         name: "internship",
+        info: " alusoft technologies",
         color: "rgba(186, 0, 77, 1)",
-        opacity: "rgba(186, 0, 77, 0.15)",
-        img: "alusoft.png"
+        opacity: "rgba(186, 0, 77, 0.2)",
+        img: "alusoft.png",
+        desc: "I did intership at alusoft technologies"
     },
 ]
 
 attachExperience();
+attachTrans(6);
 
 //Experience Functions
 function attachExperience() {
@@ -364,14 +371,53 @@ function attachExperience() {
         let divContent = `<div class="experience-show-box" style="--color: ${experience[i].color}; --opacity: ${experience[i].opacity};">
                 <i class="${experience[i].icon}"></i>
                 <h1>${experience[i].name}</h1>
-            </div>`
+            </div>`;
+
+        div.classList.add("experience-show-cont")
         div.innerHTML = divContent;
+        div.dataset.index = i;
+
+        div.addEventListener("click", experienceClicked)
+
         experienceShow.append(div);
     }
 }
 
-function attachExperienceText() {
-    
+function experienceClicked() {
+    if (isClicked) return;
+
+    attachExperienceText(this.dataset?.index);
+
+    const boxes = document.querySelectorAll(".experience-show-cont");
+    for (let i = 0; i < boxes.length; i++) boxes[i].classList.remove("active");
+    this.classList.add("active");
+}
+
+function attachTrans(num = 0) {
+    for (let i = 0; i < num; i++) {
+        let div = document.createElement("div");
+        div.classList.add("experience-trans");
+        div.style.width = `calc(100% / ${num})`;
+        experienceLeftCont.append(div);
+    }
+}
+
+function attachExperienceText(position = 0) {
+    isClicked = true;
+
+    const values = experience[position];
+    const tl = gsap.timeline({ defaults: { duration: 0.3 } })
+    const trans = document.querySelectorAll(".experience-trans");
+    const transArr = [];
+    for (let i = 0; i < trans.length; i++) transArr.push(trans[i])
+
+    let content = `<img src="./resources/icons/${values.img}" alt="icon">
+                    <h1 style="color: ${values.color};">${values.info}</h1>
+                    <p>${values.desc}</p>`;
+
+    tl.fromTo(gsap.utils.shuffle(transArr), { yPercent: 0, height: "0" }, { height: "100%", stagger: 0.2 })
+        .call(() => experienceHead.innerHTML = content)
+        .to(gsap.utils.shuffle(transArr), { yPercent: 100, stagger: 0.1, onComplete: () => isClicked = false })
 }
 
 let windowWidth = window.innerWidth;

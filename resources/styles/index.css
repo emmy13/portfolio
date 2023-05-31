@@ -430,7 +430,7 @@ svg {
     height: 250px;
     background-color: black;
     border-radius: 20px;
-    color:  rgb(237, 237, 237);
+    color: rgb(237, 237, 237);
 }
 
 .skills-logo {
@@ -476,20 +476,38 @@ svg {
 }
 
 .experience-left {
+    position: relative;
     padding: 0 40px;
+    overflow: hidden;
 }
 
-.experience-left .experience-head {
+.experience-left-cont {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.experience-trans {
+    /* border: 1px solid var(--blue); */
+    width: 0;
+    height: 0;
+    background-color: black;
+}
+
+.experience-head {
     width: 100%;
     font-size: 16px;
     color: var(--text-gray);
 }
 
-.experience-left .experience-head img {
+.experience-head img {
     height: 70px;
 }
 
-.experience-left .experience-head h1 {
+.experience-head h1 {
     line-height: 0.9;
     margin-bottom: 10px;
     font-size: 40px;
@@ -498,22 +516,20 @@ svg {
     font-family: 'Montserrat', sans-serif;
 }
 
-.experience-show-box {
-    --color: var(--blue);
-    --opacity: rgba(83, 59, 240, 0.15);
+.experience-show-cont {
     margin: 20px 0;
+    cursor: pointer;
+}
+
+.experience-show-box {
     padding: 20px 25px;
     color: white;
     background: var(--light-gray);
     border-radius: 20px;
-    border: 1px solid var(--color);
-    opacity: 0.7;
-    box-shadow: var(--opacity) 0px 4px 24px;
+    border: 1px solid black;
+    opacity: 0.6;
+    box-shadow: black 0px 4px 24px;
     transition: 0.5s;
-}
-
-div.active .experience-show-box {
-    opacity: 1;
 }
 
 .experience-show-box h1 {
@@ -528,6 +544,17 @@ div.active .experience-show-box {
     padding: 15px;
     border-radius: 20px;
     margin-right: 25px;
+    transition: 0.5s;
+}
+
+div.active .experience-show-box {
+    border: 1px solid var(--color);
+    box-shadow: var(--opacity) 0px 4px 24px;
+    opacity: 1;
+}
+
+.experience-show-box:hover {
+    opacity: 1;
 }
 
 
@@ -541,6 +568,43 @@ div.active .experience-show-box {
 @media (max-width: 1000px) {
     :root {
         --text-size: 100px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .experience .about-box {
+        display: block;
+    }
+
+    .experience-left {
+        width: 100%;
+        height: 160px;
+    }
+
+    .experience-right {
+        width: 100%;
+        height: auto;
+    }
+
+    .experience-right .experience-show {
+        padding-left: 40px;
+        width: 100%;
+        display: flex;
+        grid-row-gap: 20px;
+        grid-column-gap: 20px;
+    }
+
+    .experience-show-cont {
+        margin: 0;
+    }
+
+    .experience-show-box i {
+        padding: 10px;
+        margin-right: 10px;
+    }
+
+    .experience-show-box h1 {
+        font-size: 25px;
     }
 }
 
@@ -578,7 +642,18 @@ div.active .experience-show-box {
 }
 
 @media (max-width: 700px) {
-    .sub-head h1 {
+    .experience-left {
+        padding: 0;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    .experience-right .experience-show {
+        padding: 0;
+        flex-wrap: wrap;
+    }
+
+    .experience-show-cont .sub-head h1 {
         font-size: 6vw;
     }
 
@@ -588,6 +663,10 @@ div.active .experience-show-box {
 }
 
 @media (max-width: 600px) {
+    .experience-show-box {
+        padding: 15px;
+    }
+
     p {
         font-size: 14px;
     }
@@ -631,6 +710,10 @@ div.active .experience-show-box {
 }
 
 @media (max-width: 500px) {
+    .experience-head h1 {
+        font-size: 24px;
+    }
+
     .services-text span {
         font-size: 14px;
     }
