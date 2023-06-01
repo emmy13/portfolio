@@ -337,6 +337,7 @@ function getSiblings(activeElement) {
 
 //Experience
 var isClicked = false;
+const experienceTest = document.querySelector(".experience-test");
 const experienceHead = document.querySelector(".experience-head");
 const experienceShow = document.querySelector(".experience-show");
 const experienceLeftCont = document.querySelector(".experience-left-cont");
@@ -348,7 +349,7 @@ const experience = [
         color: "rgba(0, 66, 130, 1)",
         opacity: "rgba(0, 66, 130, 0.2)",
         img: "bu.png",
-        desc: "I schooled in babcock university"
+        desc: "My journey in web development began during my time in school, where I immersed myself in the fundamentals of this exciting field. It all started in the 200-level 1st semester, where I dove into the world of web development with HTML and CSS.<br>Building upon this foundation, I eagerly advanced my skills in the 200-level 2nd semester by delving into MySQL."
     },
     {
         icon: "fa-solid fa-id-card-clip",
@@ -357,20 +358,53 @@ const experience = [
         color: "rgba(186, 0, 77, 1)",
         opacity: "rgba(186, 0, 77, 0.2)",
         img: "alusoft.png",
-        desc: "I did intership at alusoft technologies"
+        desc: "My passion for web development led me to further explore and refine my expertise at Alusoft Technologies. During this time, I revisited and strengthened my understanding of various web development concepts. I honed my skills in Bootstrap and dived into Express, empowering me to build robust and scalable web applications using JavaScript both on the client and server sides"
     },
+    {
+        info: 'my<br><span class="highlight">experience</span>',
+        color: "white",
+        img: "none",
+        desc: "I am passionate about web development and continually strive to stay updated with the latest technologies. My little experiences have equipped me with a strong foundation in full-stack web development and enabled me to deliver efficient and user-friendly web applications.<br>Though I'm an upcoming developer, here are my few experiences in the web development industry."
+    }
 ]
+//Global Paramaters
+const experienceLength = experience.length - 1;
+const transNum = 6;
+const maxDuration = 2.5;
+const stagger = 0.15;
+var transDuration = ((maxDuration - stagger * (transNum - 1)) / transNum).toFixed(2);
+let maxLength = 0;
+let index = 0;
+
+for (let i = 0; i < experience.length; i++) {
+    if (experience[i].desc.length > maxLength) {
+        maxLength = experience[i].desc.length;
+        index = (i == experienceLength) ? 0 : i;
+    }
+}
+//----------------------//
 
 attachExperience();
-attachTrans(6);
+attachTrans(transNum);
+setHeight();
 
 //Experience Functions
+function setHeight() {
+    const values = experience[index];
+    let content = `<img src="./resources/icons/${values.img}" alt="icon">
+    <h1 style="color: ${values.color};">${values.info}</h1>
+    <p>${values.desc}</p>`;
+    experienceTest.innerHTML = content;
+
+    experienceHead.style.minHeight = `${experienceTest.clientHeight + 50}px`
+}
+
 function attachExperience() {
-    for (let i = 0; i < experience.length; i++) {
+    for (let i = 0; i < experienceLength; i++) {
         let div = document.createElement("div");
-        let divContent = `<div class="experience-show-box" style="--color: ${experience[i].color}; --opacity: ${experience[i].opacity};">
-                <i class="${experience[i].icon}"></i>
-                <h1>${experience[i].name}</h1>
+        let divContent = `<div class="experience-show-box op-cl" style="--color: ${experience[i].color}; --opacity: ${experience[i].opacity};">
+                <i class="${experience[i].icon} op-cl"></i>
+                <h1 class="op-cl">${experience[i].name}</h1>
             </div>`;
 
         div.classList.add("experience-show-cont")
@@ -388,8 +422,7 @@ function experienceClicked() {
 
     attachExperienceText(this.dataset?.index);
 
-    const boxes = document.querySelectorAll(".experience-show-cont");
-    for (let i = 0; i < boxes.length; i++) boxes[i].classList.remove("active");
+    const boxes = document.querySelectorAll(".experience-show-cont").forEach((e) => e.classList.remove("active"));
     this.classList.add("active");
 }
 
@@ -397,27 +430,55 @@ function attachTrans(num = 0) {
     for (let i = 0; i < num; i++) {
         let div = document.createElement("div");
         div.classList.add("experience-trans");
-        div.style.width = `calc(100% / ${num})`;
+        div.style.width = `${(100 / num).toFixed(2)}%`;
         experienceLeftCont.append(div);
     }
 }
 
-function attachExperienceText(position = 0) {
+function attachExperienceText(position = experienceLength, isHead = (position == experienceLength) ? true : false) {
     isClicked = true;
+    experienceHead.dataset.index = position;
 
-    const values = experience[position];
-    const tl = gsap.timeline({ defaults: { duration: 0.3 } })
-    const trans = document.querySelectorAll(".experience-trans");
     const transArr = [];
-    for (let i = 0; i < trans.length; i++) transArr.push(trans[i])
+    const values = experience[position];
+    const tl = gsap.timeline({ defaults: { duration: transDuration } })
+    document.querySelectorAll(".experience-trans").forEach((e) => transArr.push(e));
 
-    let content = `<img src="./resources/icons/${values.img}" alt="icon">
-                    <h1 style="color: ${values.color};">${values.info}</h1>
-                    <p>${values.desc}</p>`;
+    let content = (isHead) ?
+        `<div>
+    <h1 style="color: ${values.color};">${values.info}</h1>
+    <p>${values.desc}</p>
+    </div`
+        :
+        `<div>
+    <img src="./resources/icons/${values.img}" alt="icon">
+    <h1 style="color: ${values.color};">${values.info}</h1>
+    <p>${values.desc}</p>
+    </div>`;
 
-    tl.fromTo(gsap.utils.shuffle(transArr), { yPercent: 0, height: "0" }, { height: "100%", stagger: 0.2 })
+    tl.fromTo(gsap.utils.shuffle(transArr), { yPercent: 0, height: "0" }, { height: "100%", stagger: stagger })
         .call(() => experienceHead.innerHTML = content)
-        .to(gsap.utils.shuffle(transArr), { yPercent: 100, stagger: 0.1, onComplete: () => isClicked = false })
+        .to(gsap.utils.shuffle(transArr), { yPercent: 100, stagger: stagger, onComplete: () => isClicked = false })
+}
+
+//Global Functions
+document.addEventListener("click", (e) => {
+    if (isClicked) return;
+    closeAll(e);
+});
+
+function closeAll(e) {
+    let element = e.target;
+
+    if (!element.classList.contains("op-cl")) {
+        if ((experienceHead.dataset?.index || experienceLength) == experienceLength) return
+
+        isClicked = true;
+
+        document.querySelectorAll(".experience-show-cont").forEach((e) => e.classList.remove("active"))
+
+        attachExperienceText();
+    } else return;
 }
 
 let windowWidth = window.innerWidth;
@@ -428,6 +489,7 @@ window.onresize = () => {
     resizeTimeout = setTimeout(() => {
         if (window.innerWidth !== windowWidth) {
             adjustHeight();
+            setHeight();
             windowWidth = window.innerWidth;
         }
     }, 300);

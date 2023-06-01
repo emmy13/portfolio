@@ -456,13 +456,14 @@ svg {
 
 
 .experience {
-    margin-top: 80px;
+    margin-top: 40px;
 }
 
 .experience .about-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: black;
 }
 
 .experience-left,
@@ -470,15 +471,26 @@ svg {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: calc(50% - 20px);
-    height: 300px;
-    /* background: var(--light-gray); */
+    width: calc(50% - 10px);
 }
 
 .experience-left {
     position: relative;
-    padding: 0 40px;
+    margin-bottom: 30px;
+    padding: 0 0 0 40px;
+    background: black;
     overflow: hidden;
+}
+
+.experience-test {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 40px);
+    height: auto;
+    color: white;
+    opacity: 0;
+    z-index: -1;
 }
 
 .experience-left-cont {
@@ -491,7 +503,6 @@ svg {
 }
 
 .experience-trans {
-    /* border: 1px solid var(--blue); */
     width: 0;
     height: 0;
     background-color: black;
@@ -501,18 +512,22 @@ svg {
     width: 100%;
     font-size: 16px;
     color: var(--text-gray);
+    display: flex;
+    align-items: center;
 }
 
+.experience-left img,
 .experience-head img {
     height: 70px;
 }
 
+.experience-test h1,
 .experience-head h1 {
     line-height: 0.9;
     margin-bottom: 10px;
     font-size: 40px;
     text-transform: uppercase;
-    color: var(--blue);
+    color: white;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -569,21 +584,22 @@ div.active .experience-show-box {
     :root {
         --text-size: 100px;
     }
-}
 
-@media (max-width: 1000px) {
     .experience .about-box {
         display: block;
     }
 
     .experience-left {
         width: 100%;
-        height: 160px;
     }
 
     .experience-right {
         width: 100%;
         height: auto;
+    }
+
+    .experience-head {
+        align-items: end;
     }
 
     .experience-right .experience-show {
@@ -644,8 +660,10 @@ div.active .experience-show-box {
 @media (max-width: 700px) {
     .experience-left {
         padding: 0;
-        height: auto;
-        margin-bottom: 30px;
+    }
+
+    .experience-test {
+        width: 100%;
     }
 
     .experience-right .experience-show {
