@@ -30,7 +30,7 @@ const skills = [
         name: 'html 5',
         text: 'standard markup language for web pages',
         shadow: 'rgba(230, 81, 0, 0.15)',
-        content: 'Hypertext Markup Language (HTML), and it is the foundation upon which most websites are built. With HTML, web developers can create everything from simple static pages to complex, interactive web applications. '
+        content: 'Hypertext Markup Language (HTML) weaves the digital tapestry of my creations, providing a solid foundation for my imaginative web projects. With HTML, I bring ideas to life, constructing captivating web pages and crafting seamless user experiences.'
     },
     {
         logo: 'css.png',
@@ -38,7 +38,7 @@ const skills = [
         name: 'css 3',
         text: 'style sheet language for HTML documents',
         shadow: 'rgba(2, 119, 189, 0.15)',
-        content: 'Cascading Style Sheets (CSS) is a style sheet language used for describing the presentation of a document written in a markup language. It is commonly used for styling web pages written in HTML and XHTML, but can also be applied to any kind of XML document.'
+        content: 'Cascading Style Sheets (CSS) dances at my fingertips, enabling me to paint vibrant visuals and breathe life into my designs. With CSS, I meticulously style and sculpt every element, transforming mere code into visually stunning masterpieces that leave a lasting impression.'
     },
     {
         logo: 'js.png',
@@ -46,7 +46,7 @@ const skills = [
         name: 'javascript',
         text: 'web programming language',
         shadow: 'rgba(255, 214, 0, 0.15)',
-        content: 'JavaScript (JS) is a programming language that allows developers to create dynamic, interactive web pages. JS can be used to add functionality, validate user input, manipulate HTML and CSS, and communicate with servers. JS is typically used alongside HTML and CSS to build websites and web applications.'
+        content: 'JavaScript (JS), the conductor of interactivity, empowers me to infuse my creations with dynamic functionalities and captivating user interactions. With JS, I add that extra spark, manipulating elements, validating inputs, and creating immersive web experiences that engage and delight visitors.'
     },
     {
         logo: 'node.png',
@@ -54,7 +54,7 @@ const skills = [
         name: 'node js',
         text: 'open source server environment',
         shadow: 'rgba(56, 142, 60, 0.15)',
-        content: "Node.js is an open-source, cross-platform, JavaScript runtime environment built on Chrome's V8 JavaScript engine. It allows developers to run JavaScript code outside of a web browser, enabling server-side scripting and building server-side applications with JavaScript."
+        content: "Node.js, my trusted ally in the realm of server-side scripting, harnesses the power of JavaScript beyond the confines of web browsers. Built on Chrome's V8 JavaScript engine, this open-source, cross-platform runtime environment empowers me to craft robust server-side applications with the familiar language of JavaScript."
     },
     {
         logo: 'express.png',
@@ -62,7 +62,7 @@ const skills = [
         name: 'express js',
         text: 'backend node js framework',
         shadow: 'rgba(33, 163, 102, 0.15)',
-        content: 'Express.js is a web framework for Node.js that provides a simple and flexible set of features for building web applications and APIs. It is designed to be minimalist, unopinionated, and easy to use, and has become one of the most popular Node.js frameworks for building web applications.'
+        content: 'Express.js, the agile maestro of web frameworks for Node.js, offers a delightful canvas for crafting web applications and APIs. With its minimalist and unopinionated design, Express.js empowers me with a flexible toolkit, enabling me to build robust, scalable, and customized web solutions with ease.'
     },
     {
         logo: 'sql.png',
@@ -70,7 +70,7 @@ const skills = [
         name: 'MySQL',
         text: 'relational database management system',
         shadow: 'rgba(0, 121, 107, 0.15)',
-        content: 'MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL) to manage and manipulate data. It is widely used in web development to store and retrieve data for websites and applications. MySQL provides a scalable, reliable, and easy-to-use database solution for businesses of all sizes, from small startups to large enterprises.'
+        content: 'MySQL has emerged as a steadfast partner, an open-source relational database management system (RDBMS) that fuels my web development journey. With its prowess in utilizing Structured Query Language (SQL), MySQL empowers me to effortlessly store, retrieve, and manipulate data, bringing life to my web applications.'
     }
 ]
 
@@ -364,9 +364,13 @@ const experience = [
         info: 'my<br><span class="highlight">experience</span>',
         color: "white",
         img: "none",
-        desc: "I am passionate about web development and continually strive to stay updated with the latest technologies. My little experiences have equipped me with a strong foundation in full-stack web development and enabled me to deliver efficient and user-friendly web applications.<br>Though I'm an upcoming developer, here are my few experiences in the web development industry."
+        desc: "As a dedicated web developer, I constantly update my skills to stay current. With strong full-stack experience, I create efficient, user-friendly web applications. Although I'm an upcoming developer, I've gained valuable insights in the industry.<br>Here are some of my notable experiences in web development."
     }
 ]
+
+//set experience text
+experienceHead.querySelector("p").innerHTML = experience[experience.length - 1].desc;
+
 //Global Paramaters
 const experienceLength = experience.length - 1;
 const transNum = 6;
