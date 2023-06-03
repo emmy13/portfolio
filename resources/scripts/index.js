@@ -395,12 +395,13 @@ setHeight();
 //Experience Functions
 function setHeight() {
     const values = experience[index];
+    const extra = (window.matchMedia("(max-width: 600px)").matches) ? 0 : 50;
     let content = `<img src="./resources/icons/${values.img}" alt="icon">
     <h1 style="color: ${values.color};">${values.info}</h1>
     <p>${values.desc}</p>`;
     experienceTest.innerHTML = content;
 
-    experienceHead.style.minHeight = `${experienceTest.clientHeight + 50}px`
+    experienceHead.style.minHeight = `${experienceTest.clientHeight + extra}px`
 }
 
 function attachExperience() {
@@ -411,7 +412,7 @@ function attachExperience() {
                 <h1 class="op-cl">${experience[i].name}</h1>
             </div>`;
 
-        div.classList.add("experience-show-cont")
+        div.classList.add("experience-show-cont", "op-cl")
         div.innerHTML = divContent;
         div.dataset.index = i;
 
@@ -433,7 +434,7 @@ function experienceClicked() {
 function attachTrans(num = 0) {
     for (let i = 0; i < num; i++) {
         let div = document.createElement("div");
-        div.classList.add("experience-trans");
+        div.classList.add("experience-trans", "op-cl");
         div.style.width = `${(100 / num).toFixed(2)}%`;
         experienceLeftCont.append(div);
     }
@@ -443,7 +444,7 @@ function attachExperienceText(position = experienceLength, isHead = (position ==
     isClicked = true;
     experienceHead.dataset.index = position;
 
-    const transArr = [];
+    let transArr = [];
     const values = experience[position];
     const tl = gsap.timeline({ defaults: { duration: transDuration } })
     document.querySelectorAll(".experience-trans").forEach((e) => transArr.push(e));
@@ -460,9 +461,106 @@ function attachExperienceText(position = experienceLength, isHead = (position ==
     <p>${values.desc}</p>
     </div>`;
 
-    tl.fromTo(gsap.utils.shuffle(transArr), { yPercent: 0, height: "0" }, { height: "100%", stagger: stagger })
+    transArr = gsap.utils.shuffle(transArr);
+
+    tl.fromTo(transArr, { yPercent: 0, height: "0" }, { height: "100%", stagger: stagger })
         .call(() => experienceHead.innerHTML = content)
-        .to(gsap.utils.shuffle(transArr), { yPercent: 100, stagger: stagger, onComplete: () => isClicked = false })
+        .to(transArr, { yPercent: 100, stagger: stagger, onComplete: () => isClicked = false })
+}
+
+//Projects
+const projectBox = document.querySelector(".projects-box");
+const projectOverlay = document.querySelector(".projects-overlay");
+const experienceSvg = document.querySelector(".experience-svg svg");
+const projectShow = document.querySelectorAll(".projects-show");
+const projectBoxOptions = document.querySelector(".projects-box-options");
+
+const numOfProjectsShown = 3;
+const scaleDrop = 0.1;
+const projectInc = 10;
+let activeProject = projectShow.length - 1;
+
+projectPad();
+setupProjects();
+setupBtns();
+
+//Project Functions
+function switchProject() {
+    let counter = 1;
+    let scale = 1;
+    let { index } = this.dataset;
+    let project = projectShow[index];
+    let { siblingsBefore, siblingsAfter } = getAllSiblings(project);
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 0.5,
+            ease: Power1.out
+        }
+    });
+
+    for (let i = 0; i < siblingsBefore.length; i++) {
+        siblingsBefore[i].dataset.position = (counter * projectInc);
+        siblingsBefore[i].dataset.scale = (scale -= scaleDrop);
+        if (!(counter >= (numOfProjectsShown - 1))) counter++;
+    }
+
+    if (index > activeProject) {
+        if (siblingsBefore.length) {
+            siblingsBefore.reverse();
+            for (let i = 0; i < siblingsBefore.length; i++) {
+                tl.to(siblingsBefore[i], { y: `-${siblingsBefore[i].dataset.position}%`, scale: siblingsBefore[i].dataset.scale });
+            }
+
+        }
+        tl.to(project, { y: 0, scale: 1 })
+            .call(() => activeProject = index)
+        if (siblingsAfter.length) tl.to(siblingsAfter.reverse(), { y: (projectBox.clientHeight), scale: 1, stagger: 0.2 })
+
+    } else {
+        if (siblingsAfter.length) tl.to(siblingsAfter.reverse(), { y: (projectBox.clientHeight), scale: 1, stagger: 0.2 })
+        tl.to(project, { y: 0, scale: 1 })
+            .call(() => activeProject = index)
+        if (siblingsBefore.length) {
+            for (let i = 0; i < siblingsBefore.length; i++) {
+                tl.to(siblingsBefore[i], { y: `-${siblingsBefore[i].dataset.position}%`, scale: siblingsBefore[i].dataset.scale });
+            }
+
+        }
+    }
+}
+
+function setupBtns() {
+    const projectShow = document.querySelectorAll(".projects-show");
+    for (let i = 0; i < projectShow.length; i++) {
+        let btn = document.createElement("button");
+        let content = `<i class="fa-regular fa-circle"></i>
+                        <p>project ${i + 1}</p>`;
+
+        btn.classList.add("projects-box-options-show");
+        btn.dataset.index = i;
+        btn.innerHTML = content;
+        btn.addEventListener("click", switchProject);
+
+        projectBoxOptions.append(btn);
+    }
+}
+
+function setupProjects() {
+    let counter = 1;
+    let scale = 1;
+    let position = 0;
+    for (let i = (projectShow.length - 1); i >= 0; i--) {
+        gsap.set(projectShow[i], { scale, y: `-${position}%` })
+        counter++;
+        if (!(counter > numOfProjectsShown)) {
+            scale -= scaleDrop;
+            position += projectInc;
+        };
+    }
+}
+
+function projectPad() {
+    projectOverlay.style.paddingTop = `${Math.ceil(experienceSvg.clientHeight)}px`;
 }
 
 //Global Functions
@@ -494,6 +592,7 @@ window.onresize = () => {
         if (window.innerWidth !== windowWidth) {
             adjustHeight();
             setHeight();
+            projectPad();
             windowWidth = window.innerWidth;
         }
     }, 300);
