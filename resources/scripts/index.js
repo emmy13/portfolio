@@ -533,8 +533,7 @@ function setupBtns() {
     const projectShow = document.querySelectorAll(".projects-show");
     for (let i = 0; i < projectShow.length; i++) {
         let btn = document.createElement("button");
-        let content = `<i class="fa-regular fa-circle"></i>
-                        <p>project ${i + 1}</p>`;
+        let content = `<p>${i + 1}</p>`;
 
         btn.classList.add("projects-box-options-show");
         btn.dataset.index = i;
