@@ -216,7 +216,7 @@ function attachSkills() {
             <p>${skills[i].text}</p>`;
         div.innerHTML = divContent;
         div.classList.add("skills-skill");
-        div.style.border = `1px solid ${skills[i].color}`;
+        div.style.border = `2px solid ${skills[i].color}`;
         div.style.boxShadow = `${skills[i].shadow} 0px 4px 24px`;
 
         skillsBox.append(div);
@@ -566,6 +566,7 @@ function projectPad() {
 const form = document.getElementById("form-to-submit");
 const formFields = form.querySelectorAll("input, textarea");
 const formBtn = form.querySelector("button");
+const contactSpan = document.querySelectorAll(".contact-show>span");
 
 for (let i = 0; i < formFields.length; i++) {
     formFields[i].addEventListener("focus", function () {
@@ -573,12 +574,25 @@ for (let i = 0; i < formFields.length; i++) {
     })
 }
 
-form.addEventListener("submit", (e) => {
+for (let i = 0; i < contactSpan.length; i++) {
+    contactSpan[i].addEventListener("click", function () {
+        let type = capitalize(this.dataset.type);
+        let value = this.querySelector("span").innerHTML;
+
+        if (type.toLowerCase().includes("url")) value = `https://github.com/${value}`;
+
+        navigator.clipboard.writeText(value)
+            .then(() => attachAlert(`${type} copied successfully`, "success"))
+            .catch((err) => attachAlert("Couldn't copy to clipboard", "error"))
+    })
+}
+
+form.addEventListener("submit", function (e) {
     try {
         const url = "https://formspree.io/f/xayzgloq";
+        const subject = this.dataset.subject;
 
         e.preventDefault();
-
         disableFormBtn();
 
         if (validateForm()) {
@@ -587,14 +601,47 @@ form.addEventListener("submit", (e) => {
             return;
         }
 
-        attachAlert("Function Incomplete, still writing the code", "success");
-        disableFormBtn(false);
-    } catch (error) {
+        const formData = new FormData(this);
 
+        fetch(url, {
+            method: "POST",
+            body: formDataToJson(formData, subject),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(response => {
+            disableFormBtn(false);
+            if (response.ok) {
+              for (let i = 0; i < formFields.length; i++) formFields[i].value = ""
+              attachAlert("Message sent successfully", "success");
+            } else {
+              attachAlert("Couldn't connect to server, try again", "error");
+            }
+          })
+          .catch(error => {
+            disableFormBtn(false)
+            attachAlert("Server unavailable", "error");
+            console.log(error)
+          })
+    } catch (error) {
+        attachAlert("Something went wrong", "error");
+        console.log(error);
     }
 })
 
 //Contact Functions
+function formDataToJson(formData, subject) {
+    const dataObj = Object.fromEntries(formData);
+    const data = {
+        subject,
+        ...dataObj
+    };
+
+    return JSON.stringify(data);
+}
+
 function disableFormBtn(condition = true) {
     if (condition) {
         formBtn.disabled = true;
@@ -621,7 +668,7 @@ function attachAlert(msg = "Empty Cell", type = "warning") {
     const tl = gsap.timeline({
         defaults: {
             duration: 1,
-            
+
         }
     });
     const alertBox = document.querySelector(".alert-box");
@@ -645,6 +692,18 @@ function attachAlert(msg = "Empty Cell", type = "warning") {
         .to(alert, { y: -100, opacity: 0, delay: 2, ease: Back.easeIn })
         .call(() => alert.remove())
 
+}
+
+function capitalize(word = "") {
+    if (!word.length) return undefined;
+    let words = word.split(" ");
+    for (let i = 0; i < words.length; i++) {
+        let letter = words[i].split("").shift();
+        words[i] = words[i].replace(letter, letter.toUpperCase())
+    }
+
+    word = words.join(" ");
+    return word;
 }
 
 //Global Functions
