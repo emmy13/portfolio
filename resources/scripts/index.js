@@ -562,6 +562,91 @@ function projectPad() {
     projectOverlay.style.paddingTop = `${Math.ceil(experienceSvg.clientHeight)}px`;
 }
 
+//Contact
+const form = document.getElementById("form-to-submit");
+const formFields = form.querySelectorAll("input, textarea");
+const formBtn = form.querySelector("button");
+
+for (let i = 0; i < formFields.length; i++) {
+    formFields[i].addEventListener("focus", function () {
+        if (this.classList.contains("is-invalid")) this.classList.remove("is-invalid")
+    })
+}
+
+form.addEventListener("submit", (e) => {
+    try {
+        const url = "https://formspree.io/f/xayzgloq";
+
+        e.preventDefault();
+
+        disableFormBtn();
+
+        if (validateForm()) {
+            attachAlert("Fields cannot be empty");
+            disableFormBtn(false);
+            return;
+        }
+
+        attachAlert("Function Incomplete, still writing the code", "success");
+        disableFormBtn(false);
+    } catch (error) {
+
+    }
+})
+
+//Contact Functions
+function disableFormBtn(condition = true) {
+    if (condition) {
+        formBtn.disabled = true;
+        formBtn.innerHTML = "<span class='spinner'></span>";
+    } else {
+        formBtn.disabled = false;
+        formBtn.innerHTML = "send";
+    }
+}
+
+function validateForm() {
+    let isEmpty = false;
+    for (let i = 0; i < formFields.length; i++) {
+        if (formFields[i].value.length < 1) {
+            isEmpty = true;
+            formFields[i].classList.add("is-invalid")
+        }
+    }
+
+    return isEmpty;
+}
+
+function attachAlert(msg = "Empty Cell", type = "warning") {
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 1,
+            
+        }
+    });
+    const alertBox = document.querySelector(".alert-box");
+    const alert = document.createElement("div");
+    let icon = (type == "error") ? "xmark" :
+        (type == "warning") ? "exclamation" : "check";
+
+    let content = `<div class="icon">
+            <i class="fa-solid fa-${icon}"></i>
+        </div>
+        <div class="text">
+            <p>${msg}</p>
+        </div>`;
+
+    alert.classList.add("alert", type);
+    alert.innerHTML = content;
+
+    alertBox.insertBefore(alert, alertBox.children[0]);
+
+    tl.fromTo(alert, { x: 100, opacity: 0 }, { x: 0, opacity: 1, ease: Elastic.easeOut })
+        .to(alert, { y: -100, opacity: 0, delay: 2, ease: Back.easeIn })
+        .call(() => alert.remove())
+
+}
+
 //Global Functions
 document.addEventListener("click", (e) => {
     if (isClicked) return;

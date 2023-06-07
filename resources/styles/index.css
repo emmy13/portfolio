@@ -25,6 +25,22 @@
     --skills-color: black;
 }
 
+/*Colors*/
+.warning {
+    --color: #2B2A4C;
+    background-color: orange;
+}
+
+.success {
+    --color: #13005A;
+    background-color: #03C988;
+}
+
+.error {
+    --color: #321E1E;
+    background-color: #DB005B;
+}
+
 /*Common*/
 p {
     font-size: 16px;
@@ -40,6 +56,66 @@ body {
     width: 100%;
     height: 30vh;
 }
+
+.alert-box {
+    padding-left: 40px;
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    max-width: 50%;
+    max-height: 50%;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.alert {
+    margin: 10px 0;
+    padding: 15px 10px;
+    border-radius: 14px;
+    display: flex;
+    gap: 10px;
+}
+
+.alert .text,
+.alert .icon {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.alert i {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--color);
+    color: var(--color);
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-top-color: black;
+    border-left-color: black;
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*---------------------*/
 
 .hero {
     position: relative;
@@ -286,12 +362,6 @@ svg {
 .highlight {
     color: var(--blue);
     font-family: 'Poppins', sans-serif;
-}
-
-.warning {
-    color: red;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
 }
 
 .services-service {
@@ -599,7 +669,6 @@ div.active .experience-show-box {
 
 .projects-box {
     position: relative;
-    margin-top: 10px;
     width: 100%;
     height: 600px;
     overflow: hidden;
@@ -617,9 +686,6 @@ div.active .experience-show-box {
     align-items: center;
     z-index: 3;
 }
-/* 
-.projects-box-options {
-} */
 
 .projects-box-options-show {
     margin: 20px 0;
@@ -633,7 +699,7 @@ div.active .experience-show-box {
     border-radius: 10px;
     background-color: black;
     color: white;
-    /* border: none; */
+    cursor: pointer;
 }
 
 .projects-box-options-show:first-child {
@@ -643,16 +709,6 @@ div.active .experience-show-box {
 .projects-box-options-show:last-child {
     margin-bottom: 0;
 }
-/* 
-.projects-box-options-show p {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    white-space: normal;
-    text-transform: capitalize;
-    font-size: 18px;
-    overflow: hidden;
-} */
 
 .projects-show-box {
     position: relative;
@@ -672,6 +728,140 @@ div.active .experience-show-box {
     border: 1px solid rgba(0, 66, 130, 1);
 }
 
+.contact {
+    padding: 34px 27px;
+    margin-top: 60px;
+    border-radius: 30px 30px 0 0;
+    background-color: black;
+}
+
+.contact-options {
+    position: relative;
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+}
+
+.contact-options p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+}
+
+.contact-right,
+.contact-left {
+    width: 50%;
+}
+
+.contact-form {
+    width: 95%;
+}
+
+.contact-form textarea,
+.contact-form input {
+    padding: 0 0 10px 5px;
+    display: block;
+    margin: 20px 0;
+    width: 100%;
+    background-color: black;
+    border: none;
+    border-bottom: 2px solid var(--light-gray);
+    font-size: 18px;
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    resize: none;
+}
+
+.contact-form textarea.is-invalid,
+.contact-form input.is-invalid {
+    border-bottom: 2px solid red;
+}
+
+.contact-form input:first-child {
+    margin-top: 0;
+    text-transform: capitalize;
+}
+
+.contact-form textarea:focus,
+.contact-form input:focus {
+    border: none;
+    border-bottom: 2px solid var(--light-green);
+    outline: none;
+}
+
+.contact-form textarea::placeholder,
+.contact-form input::placeholder {
+    font-family: 'Oswald', sans-serif;
+}
+
+.contact-form textarea:focus::placeholder,
+.contact-form input:focus::placeholder {
+    color: white;
+}
+
+.contact-form button {
+    padding: 5px 25px;
+    border: 1px solid white;
+    font-family: 'Oswald', sans-serif;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    border: 1px solid var(--light-green);
+    color: var(--light-green);
+}
+
+.contact-others {
+    width: 100%;
+    height: 100%;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-show {
+    margin: 10px 0;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.contact-show>span {
+    --color: var(--blue);
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 19px;
+    white-space: nowrap;
+    transition: 0.5s;
+}
+
+.contact-show i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color);
+    border-radius: 50%;
+    color: var(--color);
+    margin-right: 15px;
+}
+
+.contact-show>span:hover {
+    border: 1px solid var(--color);
+}
 
 
 
@@ -743,6 +933,14 @@ div.active .experience-show-box {
 }
 
 @media (max-width: 800px) {
+    .contact-show {
+        font-size: 15px;
+    }
+
+    .contact-show i {
+        margin-right: 10px;
+    }
+
     .skills-box {
         display: block;
     }
@@ -800,9 +998,38 @@ div.active .experience-show-box {
     .projects-box {
         height: 450px;
     }
+
+    .contact-options {
+        display: block;
+    }
+
+    .contact-left,
+    .contact-right {
+        width: 100%;
+    }
+
+    .contact-right {
+        margin-top: 20px;
+    }
+
+    .contact-others {
+        justify-content: end;
+        margin-left: 0;
+    }
+
+    .contact-options p {
+        top: 75%;
+        left: 10%;
+    }
 }
 
 @media (max-width: 600px) {
+    .alert-box {
+        top: 20px;
+        right: 20px;
+        max-width: calc(100% - 40px);
+    }
+
     .experience-show-box {
         padding: 15px;
     }
@@ -889,9 +1116,7 @@ div.active .experience-show-box {
     .sub-head h1 {
         font-size: 26px;
     }
-}
 
-@media (max-width: 500px) {
     .projects-box {
         height: 380px;
     }
@@ -907,6 +1132,10 @@ div.active .experience-show-box {
 }
 
 @media (max-width: 400px) {
+    .skills .about-box {
+        padding: 10px;
+    }
+
     .skills-box-text {
         min-height: 300px;
     }
@@ -926,9 +1155,25 @@ div.active .experience-show-box {
     :root {
         --text-size: 50px;
     }
+
+    .contact-others {
+        justify-content: center;
+    }
+
+    .contact-options p {
+        display: none;
+    }
 }
 
 @media (max-width: 330px) {
+    .contact-show {
+        font-size: 14px;
+    }
+
+    .contact-show i {
+        margin-right: 5px;
+    }
+
     .projects-box {
         height: 300px;
     }
