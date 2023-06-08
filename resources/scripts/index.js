@@ -19,6 +19,25 @@ attachWords();
 adjustHeight();
 animation();
 
+//About
+const aboutSlider = document.querySelectorAll(".about-slider");
+
+setupAbout();
+//About Functions
+function setupAbout() {
+    for (let i = 0; i < aboutSlider.length; i++) {
+        let direction = (i % 2 == 0) ? "to" : "fro";
+
+        const slider = aboutSlider[i].querySelector(".about-slide-box");
+        let sliderClone = slider.cloneNode(true);
+
+        aboutSlider[i].append(sliderClone);
+
+        slider.classList.add(direction);
+        sliderClone.classList.add(direction);
+    }
+}
+
 //Skills
 const skillsBack = document.getElementById("skills-back");
 const skillsNext = document.getElementById("skills-next");
