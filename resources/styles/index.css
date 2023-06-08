@@ -990,6 +990,10 @@ div.active .experience-show-box {
 }
 
 @media (max-width: 700px) {
+    .about {
+        height: 50vh;
+    }
+
     .experience-left {
         padding: 0;
     }
