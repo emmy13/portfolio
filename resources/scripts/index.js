@@ -39,7 +39,7 @@ function setupAbout() {
         let sliderBox = document.createElement("div");
         let isActive = (i == 1) ? "active" : "";
 
-        for (let j = 0; j < currentTexts.length; j++) contents += `<div class="about-slide ${isActive}">${currentTexts[j]}</div>`
+        for (let j = 0; j < currentTexts.length; j++) contents += `<div class="about-slide ${isActive}">${currentTexts[j]}</div>`;
 
         sliderBox.classList.add("about-slide-box");
         sliderBox.innerHTML = contents;
