@@ -25,6 +25,10 @@
     --skills-color: black;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 /*Colors*/
 .warning {
     --color: #2B2A4C;
@@ -288,11 +292,21 @@ body {
 }
 
 .about-slide-box.to {
-    animation: slide 8s infinite linear;
+    animation: slide 20s infinite linear;
 }
 
 .about-slide-box.fro {
-    animation: slide 8s infinite linear reverse;
+    animation: slide 20s infinite linear reverse;
+}
+
+.about-slider:hover .about-slide-box.to,
+.about-slider:hover .about-slide-box.fro {
+    animation-play-state: paused;
+}
+
+.about-slider:hover .about-slide,
+.about-slider:hover .about-slide {
+    border-color: var(--light-green);
 }
 
 .about-slide {
@@ -304,6 +318,15 @@ body {
     align-items: center;
     justify-content: center;
     margin: 10px 0;
+    text-transform: capitalize;
+    text-align: center;
+    line-height: 1.5;
+    transition: 0.5s;
+}
+
+.about-slide.active {
+    color: var(--light-green);
+    border-color: var(--light-green);
 }
 
 @keyframes slide {

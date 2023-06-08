@@ -20,11 +20,53 @@ adjustHeight();
 animation();
 
 //About
-const aboutSlider = document.querySelectorAll(".about-slider");
+const aboutSliderBox = document.querySelector(".about-slider-box");
+const about = [
+    ['motivated', 'sharp', 'co-ordinated', 'heppy', 'caring', 'understanding'],
+    ['frontend<br>developer', 'backend<br>developer', 'team<br>player', 'quick<br>learner', 'unstoppable<br>force', 'nice guy'],
+    ['html & css', 'javascript', 'express', 'mysql', 'gsap', 'barba']
+]
 
 setupAbout();
+setupAboutAnimation();
+
 //About Functions
 function setupAbout() {
+    const setup = (i) => {
+        let contents = ""
+        let currentTexts = about[i];
+        let slider = document.createElement("div");
+        let sliderBox = document.createElement("div");
+        let isActive = (i == 1) ? "active" : "";
+
+        for (let j = 0; j < currentTexts.length; j++) contents += `<div class="about-slide ${isActive}">${currentTexts[j]}</div>`
+
+        sliderBox.classList.add("about-slide-box");
+        sliderBox.innerHTML = contents;
+
+        slider.classList.add("about-slider");
+        slider.append(sliderBox);
+
+        return slider;
+    }
+
+    let extra = (window.matchMedia("(min-width: 1020px)").matches) ? [0,2] : [];
+
+    for (let i = 0; i < about.length; i++) {
+        let slider = setup(i);
+        aboutSliderBox.append(slider);
+    }
+
+    for (const key in extra) {
+        let slider = setup(extra[key]);
+        if(extra[key]) aboutSliderBox.insertBefore(slider, aboutSliderBox.children[0])
+        else aboutSliderBox.append(slider);
+    }
+
+}
+
+function setupAboutAnimation() {
+    const aboutSlider = document.querySelectorAll(".about-slider");
     for (let i = 0; i < aboutSlider.length; i++) {
         let direction = (i % 2 == 0) ? "to" : "fro";
 
@@ -129,10 +171,12 @@ skillsNext.addEventListener("click", () => {
     if (siblingsAfter.length) tl.to(siblingsAfter, { duration: 0, x: skillSpacing[1] });
 
     tl.call(() => {
-        attachPara();
-        disableBtns(false);
         changeSkillsState({ hasNextSibling: afterNextSibling, hasPrevSibling: true })
+        attachPara();
         gsap.fromTo(gsap.utils.shuffle(splitPara()), { opacity: 0 }, { duration: 0.5, stagger: 0.01, opacity: 1 })
+        setTimeout(() => {
+            disableBtns(false)
+        }, 600);
     })
 })
 
@@ -629,21 +673,21 @@ form.addEventListener("submit", function (e) {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res => res.json())
-        .then(response => {
-            disableFormBtn(false);
-            if (response.ok) {
-              for (let i = 0; i < formFields.length; i++) formFields[i].value = ""
-              attachAlert("Message sent successfully", "success");
-            } else {
-              attachAlert("Couldn't connect to server, try again", "error");
-            }
-          })
-          .catch(error => {
-            disableFormBtn(false)
-            attachAlert("Server unavailable", "error");
-            console.log(error)
-          })
+            .then(res => res.json())
+            .then(response => {
+                disableFormBtn(false);
+                if (response.ok) {
+                    for (let i = 0; i < formFields.length; i++) formFields[i].value = ""
+                    attachAlert("Message sent successfully", "success");
+                } else {
+                    attachAlert("Couldn't connect to server, try again", "error");
+                }
+            })
+            .catch(error => {
+                disableFormBtn(false)
+                attachAlert("Server unavailable", "error");
+                console.log(error)
+            })
     } catch (error) {
         attachAlert("Something went wrong", "error");
         console.log(error);
