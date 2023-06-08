@@ -333,6 +333,7 @@ body {
     from {
         transform: translateY(0);
     }
+
     to {
         transform: translateY(calc(-100% - 10px));
     }
@@ -992,6 +993,11 @@ div.active .experience-show-box {
 @media (max-width: 700px) {
     .about {
         height: 50vh;
+    }
+
+    .about-slide {
+        width: 150px;
+        height: 150px;
     }
 
     .experience-left {
