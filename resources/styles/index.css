@@ -383,42 +383,42 @@ svg {
 
 .services-service {
     width: 100%;
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
-.services-text {
-    width: 80%;
-    margin: 20px 0;
-    padding: 17px 30px;
-    border-radius: 25px;
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    /* transition: 0.3s; */
+.services-cell {
+    padding: 20px;
+    margin-right: 20px;
+    width: 300px;
+    height: 350px;
+    border: 2px solid var(--color);
+    box-shadow: var(--opacity) 0px 4px 24px;
+    border-radius: 20px;
+    color: var(--text-gray);
 }
 
-.services-text span {
-    text-transform: capitalize;
-    font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.services-text i {
-    margin-left: 10px;
+.services-logo {
+    width: 100%;
+    height: 50%;
     display: flex;
     align-items: center;
-}
-
-.services-text:hover {
-    background-color: var(--light-green);
-    color: black;
     justify-content: center;
 }
 
-.services-text:hover i {
-    transform: rotate(45deg);
+.services-text h1 {
+    text-align: center;
+    color: var(--color);
+    text-transform: capitalize;
+    font-size: 20px;
+}
+
+.services-text p {
+    font-size: 14px;
+}
+
+.services-logo i {
+    color: var(--color);
+    font-size: 80px;
 }
 
 .svg-rev {

@@ -50,7 +50,7 @@ function setupAbout() {
         return slider;
     }
 
-    let extra = (window.matchMedia("(min-width: 1020px)").matches) ? [0,2] : [];
+    let extra = (window.matchMedia("(min-width: 1020px)").matches) ? [0, 2] : [];
 
     for (let i = 0; i < about.length; i++) {
         let slider = setup(i);
@@ -59,7 +59,7 @@ function setupAbout() {
 
     for (const key in extra) {
         let slider = setup(extra[key]);
-        if(extra[key]) aboutSliderBox.insertBefore(slider, aboutSliderBox.children[0])
+        if (extra[key]) aboutSliderBox.insertBefore(slider, aboutSliderBox.children[0])
         else aboutSliderBox.append(slider);
     }
 
@@ -77,6 +77,74 @@ function setupAboutAnimation() {
 
         slider.classList.add(direction);
         sliderClone.classList.add(direction);
+    }
+}
+
+//Services
+const mainServices = document.querySelector(".main-services");
+const services = [
+    {
+        name: 'frontend web development',
+        text: 'My customers have enjoyed the various styles I use in designing my websites, from minimalistic to dynamic, I have been gathering experience would greatly improve my frontend skills.',
+        icon: 'brush',
+        color: 'rgb(0, 189, 157)',
+        opacity: 'rgba(0, 189, 157, 0.15)'
+    },
+    {
+        name: 'backend web development',
+        text: 'Backend is where my skills really lie as it requires critical thinking, I strive to develop fully functional website that meet my customers needs.',
+        icon: 'brain',
+        color: 'rgba(222, 54, 157, 1)',
+        opacity: 'rgba(222, 54, 157, 0.15)'
+    },
+    {
+        name: 'website hosting',
+        text: 'Not all customers would like to go through the stress of finding the best service to host their website, luckily I am here to help take that pressure off your back.',
+        icon: 'network-wired',
+        color: 'rgba(116, 79, 198, 1)',
+        opacity: 'rgba(116, 79, 198, 0.15)'
+    },
+    {
+        name: 'website management',
+        text: 'Reading another persons code is a truly tasking job not to mention upgrading it, I help my customers to maintain their already existing websites and even add or remove functionalities.',
+        icon: 'computer',
+        color: 'rgba(255, 124, 217, 1)',
+        opacity: 'rgba(255, 124, 217, 0.15)'
+    }
+]
+
+attachServices();
+
+var flkty = new Flickity('.main-services', {
+    // options
+    prevNextButtons: false,
+    pageDots: false,
+    // autoPlay: true,
+    pauseAutoPlayOnHover: false
+});
+
+//Services Functions
+function attachServices() {
+    for (let i = 0; i < services.length; i++) {
+        let service = services[i];
+        let div = document.createElement("div");
+
+        let content = 
+        `<div class="services-logo">
+            <i class="fa-solid fa-${service.icon}"></i>
+        </div>
+        <div class="services-text">
+            <h1>${service.name}</h1>
+            <br>
+            <p>${service.text}</p>
+        </div>`;
+
+        div.classList.add("services-cell");
+        div.style.setProperty("--color", service.color);
+        div.style.setProperty("--opacity", service.opacity);
+        div.innerHTML = content;
+
+        mainServices.append(div);
     }
 }
 
